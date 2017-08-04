@@ -1,0 +1,2 @@
+class TrainControllerStopException(Exception):
+    pass
