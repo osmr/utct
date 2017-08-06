@@ -1,7 +1,7 @@
 import numpy as np
 import math
 
-from .loess import lowess2_preprocess, lowess2
+from .lowessi import Lowessi
 
 
 class OverfittingDetector(object):
@@ -51,9 +51,25 @@ class OverfittingDetector(object):
         self.margin2 = self.epoch_tail - margin
 
         self.x = np.linspace(0.0, 1.0, self.epoch_tail)
-        self.xx, self.w = lowess2_preprocess(self.x, f=lowess_factor)
+        self.xx, self.w = Lowessi.preprocess(self.x, f=lowess_factor)
 
     def check(self, value, is_better):
+        """
+        Check for the next value.
+
+        Parameters:
+        ----------
+        value : float
+            checked value
+        is_better : bool
+            is this value better than the previous
+
+        Returns:
+        ----------
+        is_detected : bool
+            must we do break due to overfitting
+        """
+
         if self.invalid_params:
             return False
         self.y.append(value)
@@ -66,7 +82,7 @@ class OverfittingDetector(object):
             return False
 
         self.y_tail = np.array(self.y[-self.epoch_tail:])
-        self.y_smooth = lowess2(self.y_tail, self.x, self.xx, self.w)
+        self.y_smooth = Lowessi.update(self.y_tail, self.x, self.xx, self.w)
         y_diff = np.diff(self.y_smooth[self.margin1:self.margin2])
         y_diff_mask = (y_diff > self.tol) if self.bigger else (
             y_diff < -self.tol)
