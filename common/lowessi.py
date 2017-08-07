@@ -1,6 +1,5 @@
-from math import ceil
 import numpy as np
-from scipy import linalg
+from math import ceil
 
 
 class Lowessi(object):
@@ -91,6 +90,8 @@ class Lowessi(object):
 def main():
 
     import math
+    from scipy import linalg
+
     n = 100
     x = np.linspace(0, 2 * math.pi, n)
     y = np.sin(x) + 0.3 * np.random.randn(n)

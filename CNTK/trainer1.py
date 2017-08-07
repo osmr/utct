@@ -1,15 +1,21 @@
 import logging
 
+from utct.common.trainer_template import TrainerTemplate
+
 from cntk import Trainer
 from cntk.ops import cross_entropy_with_softmax, classification_error
 from cntk.utils import ProgressPrinter
 
-from utct.common.trainer_template import TrainerTemplate
-
 
 class Trainer1(TrainerTemplate):
+    """
+    Class, which provides training process under CNTK framework.
+    """
 
     def _hyper_train_target_sub(self, **kwargs):
+        """
+        Actual training procedure for specific set of hyper parameters.
+        """
 
         if self.saver.log_filename:
             fh = logging.FileHandler(self.saver.log_filename)

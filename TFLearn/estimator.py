@@ -3,6 +3,9 @@ import tflearn
 
 
 class Estimator(object):
+    """
+    Class, which provides recalculation of quality indexes (for classifier!).
+    """
 
     @staticmethod
     def estimate(model,
@@ -10,6 +13,20 @@ class Estimator(object):
                  data_source,
                  checkpoint_path,
                  **kwargs):
+        """
+        Recalculating quality indexes.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        optimizer : object
+            instance of Optimizer class with CNN optimizer
+        data_source : object
+            instance of DataSource class with training/validation iterators
+        checkpoint_path : str
+            path to checkpoint file
+        """
 
         logging.basicConfig()
         logger = logging.getLogger()

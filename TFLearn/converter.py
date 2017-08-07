@@ -2,7 +2,11 @@ import h5py
 import tensorflow as tf
 import tflearn
 
+
 class Converter(object):
+    """
+    Class, which provides saving (and loading) models' weights into universal format.
+    """
 
     @staticmethod
     def export_to_h5(model,
@@ -10,6 +14,18 @@ class Converter(object):
                      checkpoint_path,
                      dst_filepath,
                      **kwargs):
+        """
+        Saving models' weights into universal format.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        optimizer : object
+            instance of Optimizer class with CNN optimizer
+        dst_filepath : str
+            path to output h5 file
+        """
 
         config = tflearn.init_graph()
         config.gpu_options.allow_growth = True
@@ -46,6 +62,20 @@ class Converter(object):
                        src_filepath,
                        checkpoint_path,
                        **kwargs):
+        """
+        Loading models' weights from universal format.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        optimizer : object
+            instance of Optimizer class with CNN optimizer
+        src_filepath : str
+            path to input h5 file
+        checkpoint_path : str
+            path to checkpoint file
+        """
 
         config = tflearn.init_graph()
         config.gpu_options.allow_growth = True

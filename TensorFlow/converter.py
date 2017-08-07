@@ -4,12 +4,25 @@ import tensorflow as tf
 #from .utils import fix_saver
 
 class Converter(object):
+    """
+    Class, which provides saving (and loading) models' weights into universal format.
+    """
 
     @staticmethod
     def export_to_h5(model,
                      checkpoint_path,
                      dst_filepath,
                      **kwargs):
+        """
+        Saving models' weights into universal format.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        dst_filepath : str
+            path to output h5 file
+        """
 
         with tf.get_default_graph().as_default():
             session_config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
@@ -54,6 +67,18 @@ class Converter(object):
                        src_filepath,
                        checkpoint_path,
                        **kwargs):
+        """
+        Loading models' weights from universal format.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        src_filepath : str
+            path to input h5 file
+        checkpoint_path : str
+            path to checkpoint file
+        """
 
         with tf.get_default_graph().as_default():
             session_config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))

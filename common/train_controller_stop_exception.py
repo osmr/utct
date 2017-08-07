@@ -1,5 +1,5 @@
 class TrainControllerStopException(Exception):
     """
-    An exception to interrup the training process.
+    An exception to interrupt the training process.
     """
     pass

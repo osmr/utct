@@ -7,6 +7,35 @@ from utct.common.train_controller_stop_exception import TrainControllerStopExcep
 
 
 class BestStateSaverCallback(tflearn.callbacks.Callback):
+    """
+    Train controller, that does the following:
+    1. save several the last model checkpoints, for disaster recovery,
+    2. save several the best model checkpoints, to prevent overfitting,
+    3. save pure evaluation metric values to log-file for observer,
+    4. detect overfitting and break training.
+
+    Parameters:
+    ----------
+    session : object
+        insrtance of TensorFlow Session object
+    best_snapshot_path : str
+        file path for storing the best checkpoint files
+    best_val_accuracy : float
+        Initial value of validation accuracy
+    bigger : bool
+        Should be bigger for each value of evaluation metric values
+    max_checkpoints : int
+        count of the checkpoint files (best/last)
+    epoch_tail : int or None
+        number of epochs for analysing of convergence
+    min_num_epoch : int or None
+        pure minimum number of epochs that should be without extra logic
+    lowess_factor : float
+        factor for LOWESS smoothing of tail
+    overfitting_tol : float
+        TOL for overfitting detection
+    """
+
     def __init__(self,
                  session,
                  best_snapshot_path,
@@ -68,4 +97,7 @@ class BestStateSaverCallback(tflearn.callbacks.Callback):
 
 
 class TrainControllerStopException(Exception):
+    """
+    An exception to interrupt the training process (TODO: change to common exception!).
+    """
     pass

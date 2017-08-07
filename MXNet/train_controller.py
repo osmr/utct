@@ -105,19 +105,39 @@ class TrainController(object):
         self.last_score_values = None
 
     def __del__(self):
+        """
+        Releasing resources.
+        """
         if self.score_log_file is not None:
             self.score_log_file.close()
 
     def get_epoch_end_callback(self):
+        """
+        Get link to internal method _epoch_end_callback.
+        """
         return self._epoch_end_callback
 
     def get_score_end_callback(self):
+        """
+        Get link to internal method _score_end_callback.
+        """
         return self._score_end_callback
 
     def get_batch_end_callback(self):
+        """
+        Get link to internal method _batch_end_callback.
+        """
         return self._batch_end_callback
 
     def log_best_results(self, logger=None):
+        """
+        Logging standard results of CNN training.
+
+        Parameters:
+        ----------
+        logger : object
+            instance of Logger
+        """
         if logger is None:
             return
         logger.info("Best eval metric values:")

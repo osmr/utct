@@ -3,6 +3,10 @@ from types import MethodType
 from tflearn import utils
 from .feed_dict_flow_cp import FeedDictFlowCp
 
+"""
+This module contains wrappers for some TFLearn's methods (for some types of augmentation).
+"""
+
 
 def train_op_initialize_fit_cp(self, feed_dict, val_feed_dict, dprep_dict, daug_dict,
                                show_metric, summ_writer, coord):

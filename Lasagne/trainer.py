@@ -2,16 +2,22 @@ import logging
 import time
 import numpy as np
 
+from utct.common.trainer_template import TrainerTemplate
+
 import theano
 import theano.tensor as T
 import lasagne
 
-from utct.common.trainer_template import TrainerTemplate
-
 
 class Trainer(TrainerTemplate):
+    """
+    Class, which provides training process under Lasagne framework.
+    """
 
     def _hyper_train_target_sub(self, **kwargs):
+        """
+        Actual training procedure for specific set of hyper parameters.
+        """
 
         if self.saver.log_filename:
             fh = logging.FileHandler(self.saver.log_filename)
@@ -75,6 +81,20 @@ class Trainer(TrainerTemplate):
 
     @staticmethod
     def _iterate_minibatches(inputs, targets, batch_size, shuffle=False):
+        """
+        Auxiliary procedure for iteration with batch.
+
+        Parameters:
+        ----------
+        inputs : list
+            input objects for iteration
+        targets : list
+            target objects for iteration
+        batch_size : int
+            size of batch
+        shuffle : bool
+            do shuffle flag
+        """
         assert len(inputs) == len(targets)
         if shuffle:
             indices = np.arange(len(inputs))

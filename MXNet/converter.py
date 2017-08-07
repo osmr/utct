@@ -5,11 +5,26 @@ import mxnet as mx
 
 
 class Converter(object):
+    """
+    Class, which provides saving (and loading) models' weights into universal format.
+    """
 
     @staticmethod
     def export_to_h5(checkpoint_path,
                      checkpoint_epoch,
                      dst_filepath):
+        """
+        Saving models' weights into universal format.
+
+        Parameters:
+        ----------
+        checkpoint_path : str
+            path to checkpoint file with the prefix
+        checkpoint_epoch : int
+            number of epoch for the checkpoint file
+        dst_filepath : str
+            path to output h5 file
+        """
 
         sym, arg_params, aux_params = mx.model.load_checkpoint(
             prefix=checkpoint_path,
@@ -40,6 +55,24 @@ class Converter(object):
                        checkpoint_epoch,
                        ctx,
                        **kwargs):
+        """
+        Loading models' weights from universal format.
+
+        Parameters:
+        ----------
+        model : object
+            instance of Model class with graph of CNN
+        data_source : object
+            instance of DataSource class with training/validation iterators
+        src_filepath : str
+            path to input h5 file
+        checkpoint_path : str
+            path to checkpoint file with the prefix
+        checkpoint_epoch : int
+            number of epoch for the checkpoint file
+        ctx : object
+            instance of MXNet context
+        """
 
         logging.basicConfig()
         logger = logging.getLogger()

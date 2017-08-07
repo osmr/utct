@@ -1,17 +1,23 @@
 import os
 import logging
 
-import tensorflow as tf
-import tflearn
-
 from .best_state_saver import BestStateSaverCallback, TrainControllerStopException
 from . import train_op_cp
 from utct.common.trainer_template import TrainerTemplate
 
+import tensorflow as tf
+import tflearn
+
 
 class Trainer(TrainerTemplate):
+    """
+    Class, which provides training process under TFLearn framework.
+    """
 
     def _hyper_train_target_sub(self, **kwargs):
+        """
+        Actual training procedure for specific set of hyper parameters.
+        """
 
         if self.saver.log_filename:
             fh = logging.FileHandler(self.saver.log_filename)

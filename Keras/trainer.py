@@ -1,15 +1,21 @@
 import logging
 import os
 
+from utct.common.trainer_template import TrainerTemplate
+
 from keras.callbacks import ModelCheckpoint
 from keras import backend as K
 
-from utct.common.trainer_template import TrainerTemplate
-
 
 class Trainer(TrainerTemplate):
+    """
+    Class, which provides training process under Keras framework.
+    """
 
     def _hyper_train_target_sub(self, **kwargs):
+        """
+        Actual training procedure for specific set of hyper parameters.
+        """
 
         if self.saver.log_filename:
             fh = logging.FileHandler(self.saver.log_filename)

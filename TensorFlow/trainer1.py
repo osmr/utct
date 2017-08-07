@@ -1,18 +1,24 @@
 import os
 import logging
 
-import tensorflow as tf
-#import tensorflow.contrib.slim as slim
-
 from .best_state_saver import BestStateSaverCallback, TrainControllerStopException
 from utct.common.trainer_template import TrainerTemplate
 from .trainer import TrainOp
 from .dnn import DNN
 
+import tensorflow as tf
+#import tensorflow.contrib.slim as slim
+
 
 class Trainer1(TrainerTemplate):
+    """
+    Class, which provides training process under TensorFlow framework.
+    """
 
     def _hyper_train_target_sub(self, **kwargs):
+        """
+        Actual training procedure for specific set of hyper parameters.
+        """
 
         if self.saver.log_filename:
             fh = logging.FileHandler(self.saver.log_filename)

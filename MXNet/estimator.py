@@ -3,6 +3,9 @@ import mxnet as mx
 
 
 class Estimator(object):
+    """
+    Class, which provides recalculation of quality indexes (for classifier!).
+    """
 
     @staticmethod
     def estimate(data_source,
@@ -10,6 +13,20 @@ class Estimator(object):
                  checkpoint_epoch,
                  ctx,
                  **kwargs):
+        """
+        Recalculating quality indexes.
+
+        Parameters:
+        ----------
+        data_source : object
+            instance of DataSource class with training/validation iterators
+        checkpoint_path : str
+            path to checkpoint file with the prefix
+        checkpoint_epoch : int
+            number of epoch for the checkpoint file
+        ctx : object
+            instance of MXNet context
+        """
 
         logging.basicConfig()
         logger = logging.getLogger()

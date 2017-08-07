@@ -2,6 +2,9 @@ from tflearn import data_flow
 
 
 class FeedDictFlowCp(data_flow.FeedDictFlow):
+    """
+    Wrapper of TFLearn's FeedDictFlow for some types of augmentation.
+    """
 
     def __init__(self,
                  feed_dict,
