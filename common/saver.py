@@ -2,6 +2,36 @@ import os
 
 
 class Saver(object):
+    """
+    Class which calculate and accumulate auxiliary file paths for model training. Also it saves
+    information into some log-files by requests.
+
+    Parameters:
+    ----------
+    work_dirname : str
+        directory path, where we can save all our data
+    project_name : str
+        name of subdirectory in the working directory, where we will save all our data for 
+        current task
+    model_filename_prefix : str
+        preffix for models saved files
+    log_filename : str
+        file name for training log
+    score_log_filename : str
+        file name for table with scores, updated during training
+    hyper_log_filename : str
+        file name for table with scores, updated during hyper-optimization
+    score_ref_filename : str
+        file name for table of projects, existed in the working directory
+    last_model_subdir_name : str
+        directory name for models currently trained
+    best_model_subdir_name : str
+        directory name for models with the best scores
+    log_subdir_name : str
+        directory name for a third-party logger, e.g. for TensorBoard
+    score_log_subdir_name : str
+        another directory name for a third-party logger
+    """
 
     def __init__(self,
                  work_dirname,
@@ -54,11 +84,27 @@ class Saver(object):
         self.update_score_ref_filename(score_ref_filename)
 
     def update_log_filename(self, log_filename):
+        """
+        Updating the file name for training log.
+
+        Parameters:
+        ----------
+        log_filename : str
+            new value for the file name for training log
+        """
         self.log_filename = log_filename
         if (log_filename is not None) and (len(log_filename) > 0):
             self.log_filename = os.path.join(self.log_dirname, log_filename)
 
     def update_score_log_filename(self, score_log_filename):
+        """
+        Updating the file name for table with scores, updated during training.
+
+        Parameters:
+        ----------
+        score_log_filename : str
+            new value for the file name for table with scores, updated during training
+        """
         self.score_log_filename = score_log_filename
         self.score_log_rel_filename = score_log_filename
         if (score_log_filename is not None) and (len(score_log_filename) > 0):
@@ -66,6 +112,14 @@ class Saver(object):
             self.score_log_rel_filename = os.path.relpath(self.score_log_filename, self.work_dirname)
 
     def update_hyper_log_filename(self, hyper_log_filename):
+        """
+        Updating the file name for table with scores, updated during hyper-optimization.
+
+        Parameters:
+        ----------
+        hyper_log_filename : str
+            new value for the file name for table with scores, updated during hyper-optimization
+        """
         self.hyper_log_filename = hyper_log_filename
         self.hyper_log_rel_filename = hyper_log_filename
         if (hyper_log_filename is not None) and (len(hyper_log_filename) > 0):
@@ -74,6 +128,14 @@ class Saver(object):
         self.hyper_log_ref_filename = self.hyper_log_rel_filename if (self.hyper_log_rel_filename is not None) else "NA"
 
     def update_score_ref_filename(self, score_ref_filename):
+        """
+        Updating the file name for table of projects, existed in the working directory.
+
+        Parameters:
+        ----------
+        score_ref_filename : str
+            new value for the file name for table of projects, existed in the working directory
+        """
         self.score_ref_filename = score_ref_filename
         if (score_ref_filename is not None) and (len(score_ref_filename) > 0):
             self.score_ref_filename = os.path.join(self.work_dirname, score_ref_filename)
@@ -93,6 +155,9 @@ class Saver(object):
             self._add_line_to_score_ref_file()
 
     def _add_line_to_score_ref_file(self):
+        """
+        Write the appropriate record into the table of projects, existed in the working directory.
+        """
         score_ref_file = open(self.score_ref_filename, "a")
         score_ref_file.write("\t".join([self.project_name, self.score_log_rel_filename, self.hyper_log_ref_filename]) + "\n")
         score_ref_file.close()
