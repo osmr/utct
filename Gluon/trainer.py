@@ -49,13 +49,13 @@ class Trainer(TrainerTemplate):
 
         train_loader, val_loader = self.data_source()
 
-        model = self.model()
-        model.initialize(
+        net = self.model()
+        net.initialize(
             mx.init.Xavier(magnitude=2.24),
             ctx=self.ctx)
 
         trainer = self.optimizer(
-            params=model.collect_params(),
+            params=net.collect_params(),
             **kwargs)
 
         metric = mx.metric.Accuracy()
@@ -71,7 +71,7 @@ class Trainer(TrainerTemplate):
                 # Start recording computation graph with record() section.
                 # Recorded graphs can then be differentiated with backward.
                 with autograd.record():
-                    output = model(data)
+                    output = net(data)
                     L = loss(output, label)
                     L.backward()
                 # take a gradient step with batch_size equal to data.shape[0]
@@ -87,7 +87,7 @@ class Trainer(TrainerTemplate):
             print('[Epoch %d] Training: %s=%f' % (epoch, name, acc))
 
             name, val_acc = self._test(
-                model=self.model,
+                model=net,
                 val_data=val_loader,
                 ctx=self.ctx)
             print('[Epoch %d] Validation: %s=%f' % (epoch, name, val_acc))
